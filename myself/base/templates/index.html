@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- ===== CSS ===== -->
+        <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+
+        <!-- ===== BOX ICONS ===== -->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+        <title>Portfolio responsive complete</title>
+    </head>
+    <body>
+        <!--===== HEADER =====-->
+        <header class="l-header">
+            <nav class="nav bd-grid">
+                
+                <div>
+                    <a href="#" class="nav__logo">Portfolio</a>
+                </div>
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item"><a href="#home" class="nav__link active">Home</a></li>
+                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                        <li class="nav__item"><a href="#Projects" class="nav__link">Projects</a></li>
+                        <li class="nav__item"><a href="#Internships" class="nav__link">Internships</a></li>
+                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
+                        <li class="nav__item"><a href="#Certifications" class="nav__link">Certifications</a></li>
+                        <li class="nav__item"><a href="#Education" class="nav__link">Education</a></li>
+                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                        
+                    </ul>
+                </div>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class='bx bx-menu'></i>
+                </div>
+            </nav>
+        </header>
+
+        <main class="l-main">
+            <!--===== HOME =====-->
+            <section class="home" id="home">
+                <div class="home__container bd-grid">
+                    <h1 class="home__title"><span>Hello</span><br>There.</h1>
+
+                    <div class="home__scroll">
+                        <a href="#about" class="home__scroll-link"><i class='bx bx-up-arrow-alt' ></i>Scroll down</a>
+                    </div>
+
+                   
+                </div>
+            </section>
+            
+            <!--===== ABOUT =====-->
+            <section class="about section" id="about">
+                <h2 class="section-title">About</h2>
+
+                <div class="about__container bd-grid">
+                    <div class="a">
+                         <img src="{% static 'assets/img/resume.jpeg' %}" alt=""> 
+                    </div>
+                    <div>
+                        <h2 class="about__subtitle">{{ about.heading }}</h2>
+                        <span class="about__profession">{{ about.career }}</span>
+                        <p class="about__text">{{ about.description }}</p>
+                        <a href="{% url 'download_pdf' %}" class="skills__name" style="background-color: hwb(235 48% 7%);">Resume</a>
+                        
+                    </div>
+                </div>
+            </section>
+            <!--===Projects=====-->
+            <section class="skills section" id="Projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="skills__container bd-grid">
+                <div class="skills__box">
+            {% if projects %}
+            {% for project in projects %}
+            <div class="skills__name">
+                <h2>{{ project.title }}</h2>
+                <p> {{ project.description }}</p>
+                <a href="{{ project.certification_link }}">GIthub</a>
+            </div>
+        
+        {% endfor %}
+    {% else %}
+        <p>No certifications available.</p>
+    {% endif %}
+        </div>
+        <div class="skills__img">
+            <img src="{% static 'assets/img/skill.jpg' %}" alt="">
+        </div>
+    </div>
+            <!--====== INTERNSHIPS=======-->
+            <section class="skills section" id="Internships">
+            <h2 class="section-title">Internships</h2>
+            <div class="skills__container bd-grid">
+                <div class="skills__box">
+                {% if internships %}
+                {% for internship in internships %}
+                    <a href="{{ internship.certification_link }}" class="skills__name">
+                    <h2>{{ internship.title }}</h2>
+                    <p>Issuing Organization: {{ internship.issuing_organization }}</p>
+                    <p>Issue Date: {{ internship.date_completed|date:"F Y" }}</p>
+                    </a>
+                {% endfor %}
+                {% else %}
+                    <p>No certifications available.</p>
+                {% endif %}
+                </div>
+                <div class="skills__img">
+                    <img src="{% static 'assets/img/intern.jfif' %}" alt="">
+                </div>
+            </div>
+            <!--===== SKILLS =====-->
+            <section class="skills section" id="skills">
+                <h2 class="section-title">Skills</h2>
+
+                <div class="skills__container bd-grid">
+                    <div class="skills__box">
+                        {% for category in categories %}
+                        <h3 class="skills__subtitle">{{category.name}}</h3>
+                            {% for skills in category.skills_set.all %}
+                            
+                                <span class="skills__name">{{skills.skill_name}}</span>
+                            {% endfor %}
+                        {% endfor %}
+                        
+                    </div>
+
+                    <div class="skills__img">
+                        <img src="{% static 'assets/img/skill.jpg' %}" alt="">
+                    </div>
+                </div>
+            </section>
+            
+            <!--===== Certifications=====-->
+            <section class="skills section" id="Certifications">
+            <h2 class="section-title">Certifications</h2>
+            <div class="skills__container bd-grid">
+                <div class="skills__box">    
+            {% if certifications %}
+                {% for certification in certifications %}
+                    <a href="{{ certification.certification_link }}" class="skills__name">
+                    <h2>{{ certification.title }}</h2>
+                    <p>Issuing Organization: {{ certification.issuing_organization }}</p>
+                    <p>Date Completed: {{ certification.date_completed|date:"F Y" }}</p>
+                    </a>
+                {% endfor %}
+                {% else %}
+                    <p>No certifications available.</p>
+                {% endif %}
+                </div>
+                <div class="skills__img">
+                    <img src="{% static 'assets/img/certifi.jfif' %}" alt="">
+                </div>
+            </div>
+            <!--====Education=======-->
+            <section class="skills section" id="Education">
+                <h2 class="section-title">Education</h2>
+                <div class="skills__container bd-grid">
+                    <div class="skills__box">
+                <ul class="skills__name">
+                  {% for education in educations %}
+                    <li class="education-item ">
+                      <h3>{{ education.institution }}</h3>
+                      <p>{{ education.degree }}</p>
+                      <p>{{ education.major }}</p>
+                      <p>{{ education.beginYear }}- {{education.endYear}}</p>
+                      <p>Percentage- {{education.percentage}}</p>
+                    </li>
+                  {% endfor %}
+                </ul>
+            </div>
+            <div class="skills__img">
+                <img src="{% static 'assets/img/ed.jfif' %}" alt="">
+            </div>
+        </div>
+              </section>
+            <!--===== CONTACT =====-->
+            <section class="contact section" id="contact">
+                <h2 class="section-title">Contact</h2>
+
+                <div class="contact__container bd-grid">
+                    <div class="contact__info">
+                        <h3 class="contact__subtitle">EMAIL</h3>
+                        <span class="contact__text">priyavarikallu41@gmail.com</span>
+                        <h3 class="contact__subtitle">Dial</h3>
+                        <span class="contact__text">+919000000000</span>
+
+
+                     <form action="" class="contact__form">
+                        <div class="contact__inputs">
+                            <input type="text" placeholder="Name" class="contact__input">
+                            <input type="mail" placeholder="Email" class="contact__input">
+                        </div>
+
+                        <textarea name="" id="" cols="0" rows="10" class="contact__input"></textarea>
+
+                        <input type="submit" value="Enviar" class="contact__button">
+                    </form> 
+                </div>
+            </section>
+        </main>
+
+        <!--===== FOOTER =====-->
+        <footer class="footer section">
+            <div class="footer__container bd-grid">
+                <div class="footer__data">
+                    <h2 class="footer__title">VARIKALLU PRIYANKA</h2>
+                    <p class="footer__text">I'm Priyanka and this is my personal website</p>
+                </div>
+
+                <div class="footer__data">
+                    <h2 class="footer__title">EXPLORE</h2>
+                    <ul>
+                        <li><a href="#home" class="footer__link">Home</a></li>
+                        <li><a href="#about" class="footer__link">About</a></li>
+                        <li><a href="#Projects" class="footer__link">Projects</a></li>
+                        <li><a href="#Internships" class="footer__link">Internships</a></li>
+                        <li><a href="#skills" class="footer__link">Skills</a></li>
+                        <li><a href="#Certifications" class="footer__link">Certifications</a></li>
+                        <li><a href="#Education" class="footer__link">Education</a></li>
+                        <li><a href="#Contact" class="footer__link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__data">
+                    <h2 class="footer__title">FOLLOW</h2>
+                    <a href="https://github.com/VarikalluPriyanka" class="footer__social"><i class='bx bxl-github' ></i></a>
+                    <a href="https://www.linkedin.com/in/varikallu-priyanka-125015215/" class="footer__social"><i class='bx bxl-linkedin' ></i></a>
+                    
+                </div>
+
+
+            </div>
+        </footer>
+        <!--===== SCROLL REVEAL =====-->
+        <script src="https://unpkg.com/scrollreveal"></script>
+
+        <!--===== MAIN JS =====-->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+    </body>
+</html>
